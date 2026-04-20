@@ -5,6 +5,7 @@ import "./globals.css";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { CustomCursor } from "@/components/cursor/CustomCursor";
 import { TopNav } from "@/components/layout/TopNav";
+import { ScrollRail } from "@/components/layout/ScrollRail";
 
 const bebas = Bebas_Neue({
   variable: "--font-bebas",
@@ -62,6 +63,7 @@ export default function RootLayout({
         <LenisProvider>
           <CustomCursor />
           <TopNav />
+          <ScrollRail />
           <main className="relative">{children}</main>
           <Toaster
             theme="dark"

@@ -7,15 +7,11 @@ import { cn } from "@/lib/utils";
 
 export function TopNav() {
   const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 60);
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? y / max : 0);
+      setScrolled(window.scrollY > 60);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -58,12 +54,6 @@ export function TopNav() {
           {open ? "Close ✕" : "Menu ☰"}
         </button>
 
-        <div className="absolute inset-x-0 bottom-0 h-[2px] bg-white/5">
-          <div
-            className="h-full bg-[var(--blue)] transition-[width] duration-100"
-            style={{ width: `${progress * 100}%` }}
-          />
-        </div>
       </header>
 
       {open && (

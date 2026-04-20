@@ -1,37 +1,16 @@
-import { SOCIAL_LINKS, BAND_LINEUP } from "@/lib/data";
+import { BAND_LINEUP } from "@/lib/data";
 import { WordmarkLogo } from "@/components/hero/WordmarkLogo";
 
 export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-[var(--ink)] pt-16 pb-10">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <div className="md:col-span-2">
             <WordmarkLogo className="text-[clamp(3rem,10vw,7rem)] glow-blue" />
             <p className="mt-4 max-w-sm text-sm text-[var(--steel)]">
               An Italian metalcore band making songs that stop your scrolling. This site is a fan-made mockup.
             </p>
-          </div>
-
-          <div>
-            <div className="font-mono-token text-[10px] uppercase tracking-[0.4em] text-[var(--blue)]">
-              Social
-            </div>
-            <ul className="mt-4 space-y-2">
-              {SOCIAL_LINKS.map((s) => (
-                <li key={s.label}>
-                  <a
-                    data-hover
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-display text-xl uppercase tracking-wide text-[var(--ice)] transition-colors hover:text-[var(--blue)]"
-                  >
-                    {s.label} ↗
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div>

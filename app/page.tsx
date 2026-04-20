@@ -1,7 +1,7 @@
 import { Hero } from "@/components/hero/Hero";
-import { StopScrolling } from "@/components/sections/StopScrolling";
+import { TurnItUp } from "@/components/sections/TurnItUp";
 import { RecentSongs } from "@/components/sections/RecentSongs";
-import { ScrollSong } from "@/components/sections/ScrollSong";
+import { Socials } from "@/components/sections/Socials";
 import { Tour } from "@/components/sections/Tour";
 import { Gallery } from "@/components/sections/Gallery";
 import { Merch } from "@/components/sections/Merch";
@@ -12,9 +12,9 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <StopScrolling />
+      <TurnItUp />
       <RecentSongs />
-      <ScrollSong />
+      <Socials />
       <Tour />
       <Gallery />
       <Merch />
