@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger, registerGsap } from "@/lib/gsap";
+import { gsap, registerGsap } from "@/lib/gsap";
 import { TOUR_DATES } from "@/lib/data";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 
@@ -14,43 +14,21 @@ export function Tour() {
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      el.querySelectorAll<HTMLElement>("[data-row]").forEach((row, i) => {
+      el.querySelectorAll<HTMLElement>("[data-row]").forEach((row) => {
         gsap.fromTo(
           row,
-          { x: i % 2 === 0 ? -80 : 80, opacity: 0 },
+          { y: 30, opacity: 0 },
           {
-            x: 0,
+            y: 0,
             opacity: 1,
-            duration: 0.8,
+            duration: 0.6,
             ease: "power3.out",
             scrollTrigger: {
               trigger: row,
-              start: "top 92%",
+              start: "top 90%",
             },
           }
         );
-      });
-
-      // velocity-based skew
-      let skew = 0;
-      const proxy = { val: 0 };
-      const updateSkew = () => {
-        gsap.to(el, {
-          skewY: proxy.val,
-          duration: 0.3,
-          ease: "power3",
-          overwrite: true,
-        });
-      };
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top bottom",
-        end: "bottom top",
-        onUpdate: (self) => {
-          const v = self.getVelocity() * -0.0006;
-          proxy.val = Math.max(-6, Math.min(6, v));
-          updateSkew();
-        },
       });
     }, el);
 
@@ -63,9 +41,10 @@ export function Tour() {
       ref={root}
       className="section relative overflow-hidden border-y border-white/5 bg-[var(--panel)]/40"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-1/2 -z-0 h-[50%] -translate-y-1/2 bg-grid opacity-30" />
+      <div className="pointer-events-none absolute inset-0 -z-0 bg-[radial-gradient(ellipse_at_top,rgba(11,92,255,0.18),transparent_60%)]" />
+
       <div className="relative z-10 mx-auto max-w-6xl px-6 md:px-12">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+        <div className="mb-10 flex flex-col gap-4 md:mb-14 md:flex-row md:items-end md:justify-between md:gap-10">
           <SectionLabel eyebrow="05 · Tour">
             <span className="block">On The</span>
             <span className="block text-stroke">Road</span>
@@ -75,35 +54,80 @@ export function Tour() {
           </div>
         </div>
 
-        <ul className="divide-y divide-white/10 border-y border-white/10">
+        <ul className="flex flex-col gap-3">
           {TOUR_DATES.map((t, i) => (
             <li
               key={t.date}
               data-row
               data-hover
-              className="group grid grid-cols-12 items-center gap-4 py-6 md:py-8 transition-colors hover:bg-[var(--blue)]/5"
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[var(--ink)]/60 backdrop-blur-sm transition-colors hover:border-[var(--blue)]/40 hover:bg-[var(--blue)]/[0.04]"
             >
-              <div className="col-span-12 flex items-center gap-4 font-mono-token text-xs uppercase tracking-[0.3em] text-[var(--blue)] md:col-span-2">
-                <span className="text-[var(--ice)]/40">{String(i + 1).padStart(2, "0")}</span>
-                {t.date}
-              </div>
-              <div className="col-span-6 md:col-span-3">
-                <div className="font-display text-3xl uppercase leading-none md:text-4xl">
-                  {t.city}
+              {/* hover accent bar */}
+              <span className="pointer-events-none absolute inset-y-0 left-0 w-[3px] origin-top scale-y-0 bg-[var(--blue)] transition-transform duration-300 group-hover:scale-y-100" />
+
+              {/* Desktop row */}
+              <div className="hidden grid-cols-12 items-center gap-6 px-6 py-6 md:grid">
+                <div className="col-span-2 flex items-baseline gap-3 font-mono-token text-xs uppercase tracking-[0.3em] text-[var(--blue)]">
+                  <span className="text-[var(--ice)]/30">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span>{t.date}</span>
                 </div>
-                <div className="mt-1 font-mono-token text-[11px] uppercase tracking-[0.3em] text-[var(--steel)]">
-                  {t.venue}
+                <div className="col-span-4">
+                  <div className="font-display text-3xl uppercase leading-none">
+                    {t.city}
+                  </div>
+                  <div className="mt-2 font-mono-token text-[11px] uppercase tracking-[0.3em] text-[var(--steel)]">
+                    {t.venue}
+                  </div>
+                </div>
+                <div className="col-span-4 text-sm leading-snug text-[var(--steel)]">
+                  {t.note}
+                </div>
+                <div className="col-span-2 flex items-center justify-end gap-4">
+                  <StatusPill status={t.status} />
+                  <a
+                    href="#"
+                    className="font-mono-token text-xs uppercase tracking-[0.3em] text-[var(--blue)] transition-transform group-hover:translate-x-1"
+                    data-hover
+                  >
+                    →
+                  </a>
                 </div>
               </div>
-              <div className="col-span-6 text-sm text-[var(--steel)] md:col-span-5">{t.note}</div>
-              <div className="col-span-12 flex items-center justify-between md:col-span-2 md:justify-end">
-                <StatusPill status={t.status} />
+
+              {/* Mobile card */}
+              <div className="flex flex-col gap-3 p-5 md:hidden">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-baseline gap-2 font-mono-token text-[10px] uppercase tracking-[0.3em] text-[var(--blue)]">
+                    <span className="text-[var(--ice)]/30">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span>{t.date}</span>
+                  </div>
+                  <StatusPill status={t.status} />
+                </div>
+
+                <div>
+                  <div className="font-display text-[2rem] uppercase leading-[0.95]">
+                    {t.city}
+                  </div>
+                  <div className="mt-1 font-mono-token text-[10px] uppercase tracking-[0.3em] text-[var(--steel)]">
+                    {t.venue}
+                  </div>
+                </div>
+
+                <p className="text-[13px] leading-snug text-[var(--steel)]">
+                  {t.note}
+                </p>
+
                 <a
                   href="#"
-                  className="ml-4 font-mono-token text-xs uppercase tracking-[0.3em] text-[var(--blue)] transition-transform group-hover:translate-x-1"
                   data-hover
+                  className="mt-1 inline-flex w-fit items-center gap-2 font-mono-token text-[11px] uppercase tracking-[0.3em] text-[var(--blue)]"
                 >
-                  Tickets →
+                  Tickets
+                  <span aria-hidden>→</span>
                 </a>
               </div>
             </li>
@@ -124,7 +148,7 @@ function StatusPill({ status }: { status: string }) {
       : "bg-[var(--blue)]/15 text-[var(--blue)] border-[var(--blue)]/40";
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono-token text-[10px] uppercase tracking-[0.3em] ${tone}`}
+      className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-2.5 py-1 font-mono-token text-[9px] uppercase tracking-[0.3em] md:text-[10px] ${tone}`}
     >
       <span className="inline-block h-1.5 w-1.5 rounded-full bg-current" />
       {status}

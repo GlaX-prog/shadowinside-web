@@ -71,29 +71,29 @@ function MagneticTile({ s }: { s: Social }) {
       onMouseLeave={onLeave}
       data-hover
       data-tile
-      className="group relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-[var(--panel)] p-6 transition-[border-color,box-shadow,background-color] duration-300 hover:border-[var(--blue)]/60 hover:shadow-[0_0_40px_rgba(31,182,255,0.25)] hover:bg-[var(--blue)]/[0.06]"
+      className="group relative flex min-h-[220px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[var(--panel)] p-5 transition-[border-color,box-shadow,background-color] duration-300 hover:border-[var(--blue)]/60 hover:shadow-[0_0_40px_rgba(31,182,255,0.25)] hover:bg-[var(--blue)]/[0.06] sm:rounded-3xl sm:p-6 md:aspect-square md:min-h-0"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(31,182,255,0.15),transparent_60%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-      <div className="absolute left-4 top-4 font-mono-token text-[10px] uppercase tracking-[0.3em] text-[var(--steel)] group-hover:text-[var(--blue)] transition-colors">
+      <div className="absolute left-3 top-3 font-mono-token text-[9px] uppercase tracking-[0.3em] text-[var(--steel)] group-hover:text-[var(--blue)] transition-colors md:left-4 md:top-4 md:text-[10px]">
         {s.label}
       </div>
-      <div className="absolute right-4 top-4 font-mono-token text-[10px] uppercase tracking-[0.3em] text-[var(--ice)]/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div className="absolute right-3 top-3 hidden font-mono-token text-[10px] uppercase tracking-[0.3em] text-[var(--ice)]/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:right-4 md:top-4 md:block">
         open ↗
       </div>
 
       <div
         ref={inner}
-        className="pointer-events-none flex flex-col items-center gap-4 transition-transform duration-150"
+        className="pointer-events-none mt-4 flex flex-col items-center gap-3 transition-transform duration-150 md:mt-0 md:gap-4"
       >
-        <div className="h-20 w-20 text-[var(--ice)] transition-colors duration-300 group-hover:text-[var(--blue)] md:h-24 md:w-24">
+        <div className="h-12 w-12 text-[var(--ice)] transition-colors duration-300 group-hover:text-[var(--blue)] sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24">
           <Icon name={s.icon} />
         </div>
-        <div className="text-center">
-          <div className="font-display text-2xl uppercase leading-none md:text-3xl">
+        <div className="w-full text-center">
+          <div className="truncate font-display text-lg uppercase leading-none sm:text-xl md:text-2xl lg:text-3xl">
             {s.handle}
           </div>
-          <div className="mt-2 font-mono-token text-[10px] uppercase tracking-[0.3em] text-[var(--steel)]">
+          <div className="mt-2 font-mono-token text-[9px] uppercase tracking-[0.25em] text-[var(--steel)] sm:text-[10px] sm:tracking-[0.3em]">
             {s.blurb}
           </div>
         </div>

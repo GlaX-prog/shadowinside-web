@@ -1,17 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NAV_LINKS } from "@/lib/data";
 import { WordmarkLogo } from "@/components/hero/WordmarkLogo";
 import { cn } from "@/lib/utils";
 
 export function TopNav() {
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
+    lastY.current = window.scrollY;
     const onScroll = () => {
-      setScrolled(window.scrollY > 60);
+      const y = window.scrollY;
+      setScrolled(y > 60);
+      const delta = y - lastY.current;
+      if (y < 80) {
+        setHidden(false);
+      } else if (delta > 6) {
+        setHidden(true);
+      } else if (delta < -6) {
+        setHidden(false);
+      }
+      lastY.current = y;
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -22,8 +35,9 @@ export function TopNav() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-all md:px-10",
-          scrolled ? "backdrop-blur-md bg-[var(--void)]/60 border-b border-white/5" : "bg-transparent"
+          "fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-[transform,background-color,backdrop-filter,border-color] duration-300 md:px-10",
+          scrolled ? "backdrop-blur-md bg-[var(--void)]/70 border-b border-white/5" : "bg-transparent",
+          hidden && !open ? "-translate-y-full" : "translate-y-0"
         )}
       >
         <a href="#hero" className="flex items-center gap-3" data-hover>

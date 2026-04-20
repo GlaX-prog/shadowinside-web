@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger, registerGsap } from "@/lib/gsap";
 import { FEATURED_YT_ID, FEATURED_YT_TITLE } from "@/lib/data";
 
-const INTRO = ["STOP", "YOUR", "SCROLLING"];
+const INTRO = ["TURN", "IT", "UP"];
 
 export function TurnItUp() {
   const root = useRef<HTMLDivElement>(null);
@@ -82,13 +82,13 @@ export function TurnItUp() {
       const bg = el.querySelector<HTMLElement>("[data-bg]");
 
       gsap.set(letters, { yPercent: 110, rotate: 5 });
-      gsap.set(stageTwo, { opacity: 0, y: 40 });
+      gsap.set(stageTwo, { opacity: 0, y: 30 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: "+=220%",
+          end: "+=140%",
           pin: true,
           scrub: 0.8,
         },
@@ -97,30 +97,15 @@ export function TurnItUp() {
       tl.to(letters, {
         yPercent: 0,
         rotate: 0,
-        stagger: 0.035,
+        stagger: 0.04,
         ease: "power3.out",
       })
-        .to({}, { duration: 0.2 }) // hold
+        .to({}, { duration: 0.3 }) // hold
+        .to(bg, { scale: 1.08, filter: "blur(0px)" }, 0)
         .to(
-          letters,
-          {
-            yPercent: -110,
-            opacity: 0,
-            stagger: 0.02,
-            ease: "power3.in",
-          },
-          "+=0.15"
-        )
-        .to(
-          bg,
-          { scale: 1.1, filter: "blur(0px)" },
-          0
-        )
-        .fromTo(
           stageTwo,
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
-          ">-0.1"
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+          ">-0.15"
         );
     }, el);
 
@@ -199,23 +184,15 @@ export function TurnItUp() {
           ))}
         </div>
 
-        {/* Stage 2 — appears after letters fade */}
+        {/* Stage 2 — audio controls appear after letters land */}
         <div
           data-stage-two
-          className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6"
+          className="pointer-events-none mt-8 flex flex-col items-center gap-5"
         >
-          <div className="font-mono-token mb-4 text-[10px] uppercase tracking-[0.5em] text-[var(--blue)]">
+          <div className="font-mono-token text-[10px] uppercase tracking-[0.5em] text-[var(--blue)]">
             now with audio ↓
           </div>
-          <h2 className="font-display text-[clamp(3.5rem,14vw,12rem)] uppercase leading-[0.82] tracking-tight text-center glow-blue">
-            Turn
-            <br />
-            it
-            <br />
-            <span className="text-stroke">up.</span>
-          </h2>
-
-          <div className="pointer-events-auto mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-3 md:gap-4">
             <button
               onClick={toggleMute}
               data-hover
